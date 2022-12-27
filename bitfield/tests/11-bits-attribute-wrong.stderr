@@ -1,5 +1,13 @@
-error[E0308]: mismatched types
-  --> tests/11-bits-attribute-wrong.rs:11:14
-   |
-11 |     #[bits = 9]
-   |              ^ expected an array with a fixed size of 9 elements, found one with 1 element
+error[E0277]: the trait bound `[u8; 0]: bitfield::checks::OccupiedAsItsDeclare` is not satisfied
+ --> tests/11-bits-attribute-wrong.rs:9:1
+  |
+9 | #[bitfield]
+  | ^^^^^^^^^^^ the trait `bitfield::checks::OccupiedAsItsDeclare` is not implemented for `[u8; 0]`
+  |
+  = help: the trait `bitfield::checks::OccupiedAsItsDeclare` is implemented for `[u8; 1]`
+note: required by a bound in `CheckOccupiedAsItsDeclare`
+ --> src/lib.rs
+  |
+  | pub struct CheckOccupiedAsItsDeclare<T: checks::OccupiedAsItsDeclare> {
+  |                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `CheckOccupiedAsItsDeclare`
+  = note: this error originates in the attribute macro `bitfield` (in Nightly builds, run with -Z macro-backtrace for more info)

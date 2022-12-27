@@ -30,13 +30,13 @@ pub struct RedirectionTableEntry {
     reserved: B4,
 }
 
-#[derive(BitfieldSpecifier, Debug)]
+#[derive(BitfieldSpecifier, Debug, Copy, Clone)]
 pub enum TriggerMode {
     Edge = 0,
     Level = 1,
 }
 
-#[derive(BitfieldSpecifier, Debug)]
+#[derive(BitfieldSpecifier, Debug, Copy, Clone)]
 pub enum DeliveryMode {
     Fixed = 0b000,
     Lowest = 0b001,

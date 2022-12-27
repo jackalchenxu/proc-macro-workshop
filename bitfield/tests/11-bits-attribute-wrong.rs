@@ -13,7 +13,7 @@ pub struct RedirectionTableEntry {
     reserved: B7,
 }
 
-#[derive(BitfieldSpecifier, Debug)]
+#[derive(BitfieldSpecifier, Debug, Copy, Clone)]
 pub enum TriggerMode {
     Edge = 0,
     Level = 1,

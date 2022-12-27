@@ -25,7 +25,7 @@ pub struct RedirectionTableEntry {
 const F: isize = 3;
 const G: isize = 0;
 
-#[derive(BitfieldSpecifier, Debug, PartialEq)]
+#[derive(BitfieldSpecifier, Debug, PartialEq, Copy, Clone)]
 pub enum DeliveryMode {
     Fixed = F,
     Lowest,

@@ -10,6 +10,51 @@
 //
 // From the perspective of a user of this crate, they get all the necessary APIs
 // (macro, trait, struct) through the one bitfield crate.
-pub use bitfield_impl::bitfield;
+#![allow(non_snake_case)]
+// pub use bitfield_impl::bitfield;
+pub use bitfield_impl::*;
 
-// TODO other things
+bitfield_impl::define_bit_field_specifiers!();
+
+pub trait Specifier {
+    const BITS: usize;
+    type SetterType;
+    type GetterType;
+
+    fn from_u64(val: u64) -> Self::GetterType;
+    fn into_u64(val: Self::SetterType) -> u64;
+}
+
+impl Specifier for bool {
+    const BITS: usize = 1;
+    type GetterType = bool;
+    type SetterType = bool;
+
+    fn from_u64(val: u64) -> Self::GetterType {
+        val != 0
+    }
+
+    fn into_u64(val: Self::SetterType) -> u64 {
+        val as u64
+    }
+}
+
+pub struct CheckTotalSizeIsMultipleOfEightBits<T: checks::TotalSizeIsMultipleOfEightBits> {
+    phantom: std::marker::PhantomData<T>,
+}
+pub struct CheckDiscriminantInRange<T: checks::DiscriminantInRange> {
+    phantom: std::marker::PhantomData<T>,
+}
+pub struct CheckOccupiedAsItsDeclare<T: checks::OccupiedAsItsDeclare> {
+    phantom: std::marker::PhantomData<T>,
+}
+
+mod checks {
+    pub trait TotalSizeIsMultipleOfEightBits {}
+    impl TotalSizeIsMultipleOfEightBits for [u8; 0] {}
+    pub trait DiscriminantInRange {}
+    impl DiscriminantInRange for [u8; 0] {}
+
+    pub trait OccupiedAsItsDeclare {}
+    impl OccupiedAsItsDeclare for [u8; 1] {}
+}
